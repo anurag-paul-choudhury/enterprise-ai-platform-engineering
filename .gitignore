@@ -1,0 +1,13 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+local.settings.json
+function-app/.venv/
+function-app/.python_packages/
+.pytest_cache/
+*.log
+namecheck.json

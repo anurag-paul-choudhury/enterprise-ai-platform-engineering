@@ -1,0 +1,47 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.48.1.52935",
+      "templateHash": "15792465584156859491"
+    }
+  },
+  "parameters": {
+    "keyVaultName": {
+      "type": "string",
+      "defaultValue": "kv-enterprise-ai-ap-2026"
+    },
+    "identityName": {
+      "type": "string",
+      "defaultValue": "id-enterprise-ai"
+    }
+  },
+  "variables": {
+    "secretsUserRoleId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '4633458b-17de-408a-b874-0445c86b69e6')]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "scope": "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]",
+      "name": "[guid(resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName')), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName')), variables('secretsUserRoleId'))]",
+      "properties": {
+        "roleDefinitionId": "[variables('secretsUserRoleId')]",
+        "principalId": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName')), '2023-01-31').principalId]",
+        "principalType": "ServicePrincipal"
+      }
+    }
+  ],
+  "outputs": {
+    "assignedRole": {
+      "type": "string",
+      "value": "Key Vault Secrets User"
+    },
+    "assignedIdentity": {
+      "type": "string",
+      "value": "[parameters('identityName')]"
+    }
+  }
+}
