@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.48.1.52935",
-      "templateHash": "16968877046797312529"
+      "templateHash": "7712346652800779270"
     }
   },
   "resources": [
@@ -25,7 +25,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.48.1.52935",
-              "templateHash": "12353160548050526662"
+              "templateHash": "17425979723043858622"
             }
           },
           "parameters": {
@@ -50,11 +50,13 @@
                     "10.0.0.0/16"
                   ]
                 },
+                "privateEndpointVNetPolicies": "Disabled",
                 "subnets": [
                   {
                     "name": "snet-app",
                     "properties": {
-                      "addressPrefix": "10.0.1.0/24"
+                      "addressPrefix": "10.0.1.0/24",
+                      "privateEndpointNetworkPolicies": "Disabled"
                     }
                   },
                   {
@@ -67,7 +69,8 @@
                   {
                     "name": "snet-management",
                     "properties": {
-                      "addressPrefix": "10.0.3.0/24"
+                      "addressPrefix": "10.0.3.0/24",
+                      "privateEndpointNetworkPolicies": "Disabled"
                     }
                   }
                 ]
@@ -300,7 +303,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.48.1.52935",
-              "templateHash": "13312319049807436651"
+              "templateHash": "4121676699706084409"
             }
           },
           "parameters": {
@@ -329,6 +332,12 @@
               "type": "Microsoft.Storage/storageAccounts/blobServices",
               "apiVersion": "2023-05-01",
               "name": "[format('{0}/{1}', 'stenterpriseaiap26', 'default')]",
+              "properties": {
+                "deleteRetentionPolicy": {
+                  "enabled": false,
+                  "allowPermanentDelete": false
+                }
+              },
               "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts', 'stenterpriseaiap26')]"
               ]
@@ -338,7 +347,9 @@
               "apiVersion": "2023-05-01",
               "name": "[format('{0}/{1}/{2}', 'stenterpriseaiap26', 'default', 'function-deployment')]",
               "properties": {
-                "publicAccess": "None"
+                "publicAccess": "None",
+                "defaultEncryptionScope": "$account-encryption-key",
+                "denyEncryptionScopeOverride": false
               },
               "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts/blobServices', 'stenterpriseaiap26', 'default')]"
@@ -374,7 +385,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.48.1.52935",
-              "templateHash": "2032309460387072603"
+              "templateHash": "17201433873985439193"
             }
           },
           "parameters": {
@@ -397,6 +408,7 @@
               "apiVersion": "2024-05-01",
               "name": "[format('{0}/{1}', parameters('vnetName'), 'snet-app')]",
               "properties": {
+                "privateEndpointNetworkPolicies": "Disabled",
                 "addressPrefix": "10.0.1.0/24",
                 "networkSecurityGroup": {
                   "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('appNsgName'))]"
@@ -408,6 +420,7 @@
               "apiVersion": "2024-05-01",
               "name": "[format('{0}/{1}', parameters('vnetName'), 'snet-management')]",
               "properties": {
+                "privateEndpointNetworkPolicies": "Disabled",
                 "addressPrefix": "10.0.3.0/24",
                 "networkSecurityGroup": {
                   "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('managementNsgName'))]"

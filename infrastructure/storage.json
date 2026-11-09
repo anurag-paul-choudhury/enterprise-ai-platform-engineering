@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.48.1.52935",
-      "templateHash": "13312319049807436651"
+      "templateHash": "4121676699706084409"
     }
   },
   "parameters": {
@@ -34,6 +34,12 @@
       "type": "Microsoft.Storage/storageAccounts/blobServices",
       "apiVersion": "2023-05-01",
       "name": "[format('{0}/{1}', 'stenterpriseaiap26', 'default')]",
+      "properties": {
+        "deleteRetentionPolicy": {
+          "enabled": false,
+          "allowPermanentDelete": false
+        }
+      },
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', 'stenterpriseaiap26')]"
       ]
@@ -43,7 +49,9 @@
       "apiVersion": "2023-05-01",
       "name": "[format('{0}/{1}/{2}', 'stenterpriseaiap26', 'default', 'function-deployment')]",
       "properties": {
-        "publicAccess": "None"
+        "publicAccess": "None",
+        "defaultEncryptionScope": "$account-encryption-key",
+        "denyEncryptionScopeOverride": false
       },
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts/blobServices', 'stenterpriseaiap26', 'default')]"

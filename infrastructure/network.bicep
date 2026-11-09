@@ -12,11 +12,15 @@ resource vnet 'Microsoft.Network/virtualNetworks@2024-05-01' = {
         '10.0.0.0/16'
       ]
     }
+
+    privateEndpointVNetPolicies: 'Disabled'
+
     subnets: [
       {
         name: 'snet-app'
         properties: {
           addressPrefix: '10.0.1.0/24'
+          privateEndpointNetworkPolicies: 'Disabled'
         }
       }
       {
@@ -30,6 +34,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2024-05-01' = {
         name: 'snet-management'
         properties: {
           addressPrefix: '10.0.3.0/24'
+          privateEndpointNetworkPolicies: 'Disabled'
         }
       }
     ]

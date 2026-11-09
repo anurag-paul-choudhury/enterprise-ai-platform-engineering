@@ -19,6 +19,7 @@ resource appSubnet 'Microsoft.Network/virtualNetworks/subnets@2024-05-01' = {
   parent: vnet
   name: 'snet-app'
   properties: {
+    privateEndpointNetworkPolicies: 'Disabled'
     addressPrefix: '10.0.1.0/24'
     networkSecurityGroup: {
       id: appNsg.id
@@ -30,6 +31,7 @@ resource managementSubnet 'Microsoft.Network/virtualNetworks/subnets@2024-05-01'
   parent: vnet
   name: 'snet-management'
   properties: {
+    privateEndpointNetworkPolicies: 'Disabled'
     addressPrefix: '10.0.3.0/24'
     networkSecurityGroup: {
       id: managementNsg.id

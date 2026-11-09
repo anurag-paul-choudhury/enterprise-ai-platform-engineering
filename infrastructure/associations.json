@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.48.1.52935",
-      "templateHash": "2032309460387072603"
+      "templateHash": "17201433873985439193"
     }
   },
   "parameters": {
@@ -28,6 +28,7 @@
       "apiVersion": "2024-05-01",
       "name": "[format('{0}/{1}', parameters('vnetName'), 'snet-app')]",
       "properties": {
+        "privateEndpointNetworkPolicies": "Disabled",
         "addressPrefix": "10.0.1.0/24",
         "networkSecurityGroup": {
           "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('appNsgName'))]"
@@ -39,6 +40,7 @@
       "apiVersion": "2024-05-01",
       "name": "[format('{0}/{1}', parameters('vnetName'), 'snet-management')]",
       "properties": {
+        "privateEndpointNetworkPolicies": "Disabled",
         "addressPrefix": "10.0.3.0/24",
         "networkSecurityGroup": {
           "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('managementNsgName'))]"

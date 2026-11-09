@@ -18,6 +18,12 @@ resource storage 'Microsoft.Storage/storageAccounts@2023-05-01' = {
 resource blobService 'Microsoft.Storage/storageAccounts/blobServices@2023-05-01' = {
   parent: storage
   name: 'default'
+  properties: {
+    deleteRetentionPolicy: {
+      enabled: false
+      allowPermanentDelete: false
+    }
+  }
 }
 
 resource deploymentContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2023-05-01' = {
@@ -25,6 +31,8 @@ resource deploymentContainer 'Microsoft.Storage/storageAccounts/blobServices/con
   name: 'function-deployment'
   properties: {
     publicAccess: 'None'
+    defaultEncryptionScope: '$account-encryption-key'
+    denyEncryptionScopeOverride: false
   }
 }
 
